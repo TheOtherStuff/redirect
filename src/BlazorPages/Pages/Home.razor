@@ -1,7 +1,18 @@
 ﻿@page "/"
+@using System.Web
+@inject NavigationManager NavigationManager
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Redirect</PageTitle>
 
-<h1>Hello, world!</h1>
+@code{
+    [SupplyParameterFromQuery(Name = "url")]
+    public string? Url { get; set; }
 
-Welcome to your new app.
+    protected override void OnInitialized()
+    {
+        if(!string.IsNullOrWhiteSpace(this.Url))
+        {
+            NavigationManager.NavigateTo(HttpUtility.UrlDecode(this.Url));
+        }
+    }
+}
